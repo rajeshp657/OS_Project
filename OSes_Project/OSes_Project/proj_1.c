@@ -15,7 +15,7 @@
  |		all requirements on q.hpp are met.			|
  +--------------------------------------------------+
  */
-#include "q.hpp"
+#include "q.h"
 
 /**		This program should be compiled using "gcc proj_1.c"		**/
 
@@ -25,29 +25,30 @@
 
 // prints the payload value of each queue element
 // assumes that the pointer passed is a pointer to the head of the queue
-void print_element(struct q &q_element) {
+void print_element(struct qElement *element) {
 	if (DEBUG) {
-		using namespace std;
 
-		cout << "+----------+----+" << endl;
-		cout << "| payload: | " << q_element.payload << endl;
-		cout << "+----------+---------+" << endl;
-		cout << "+   head:  | " << &*q_element.head << endl;
-		cout << "+   prev:  | " << &*q_element.prev << endl;
-		cout << "+   next:  | " << &*q_element.next << endl;
-		cout << "+----------+---------+" << endl;
+		printf("%s\n","+----------+----+");
+		printf("%s%d\n","| payload: | ",element->payload);
+		printf("%s\n","+----------+---------+");
+		printf("%s%p\n","+   prev:  | ",element->prev);
+		printf("%s%p\n","+   next:  | ",element->next);
+		printf("%s\n","+----------+---------+");
 	}
 }
 
 int main() {
-	using namespace std;
 
-	struct q Queue = {};	// this is an empty queue for testing
+	struct Queue queue;	// allocate memory for queue
 	
-	struct q someHead = {};	// a random q-element
 
-	Queue.init(someHead);
-	print_element(Queue);
+	initQueue(&queue); 		//create an empty queue
+
+	struct qElement *element = newItem(); //created a qElement
+
+	print_element(element);
+
+	freeItem(element);
 
 	return 0;
 }
