@@ -41,6 +41,7 @@ struct qElement {
 
 struct Queue{
 	struct qElement* head; //points to first element in queue
+	int count;
 };
 	
 
@@ -50,6 +51,7 @@ struct Queue{
  *    Descrip:   creates an empty queue, pointed to by the variable head	*/
 void initQueue(struct Queue *queue) {
 	queue->head=NULL;	// initialize head to NULL
+	queue->count=0;
 }
 
 
@@ -75,29 +77,33 @@ void freeItem(struct qElement *element)
  *    Returns:   VOID
  *    Descrip:   adds a queue item, pointed to by item, to the queue pointed to by head */
 void addQueue(struct Queue *queue, struct qElement *item) {
-	// Construct temp pointer as iterator
-	struct qElement *temp;
+
 
 	// Case where queue is empty, queue->head is NULL
-	if (queue->head == NULL) {
+	if (queue->head == NULL)
+	{
 		// Insert item as first element
-		queue->head = item;
-		item->prev = item;		// prev should point at itself
-		item->next = NULL;		// point to NULL just as placeholder for printing, should actually point to itself
-	} else {					// Case where the queue is not empty
-		temp = queue->head;		// temp should start at the head
-		// Loop through queue until we have pointer to last element
-		while(temp->next != NULL) {
-			// Move temp pointer to next element
-			temp = temp->next;
-		}   					// When loop ends, temp->next points to the end of the list
+		queue->head = item;			//head points to first element					
+		queue->head->prev = item;		//prev should point at itself
+		queue->head->next = item;		//next points to itself 
+		queue->count++;				//increase count of elements for printing
+	} 
+	
+	else {
+
+		struct qElement *tail = queue->head->prev; 		//tail element
 		
-		// Add item to end of the queue
-		temp->next = item;		// temp->next should point to item
-		item->prev = temp;		// item->prev should point to temp
-		item->next = NULL;//queue->head;	// item->next should point to head of queue, because it is the last element
-		// Link the first element to the last element
-		queue->head->prev = item;
+		item->next = queue->head;					//next points to head
+		item->prev = tail;
+		queue->head->prev = item; 				//set head tail to item
+		tail->next = item;					//make old tail next point to item
+/*
+		if(queue->head->next == queue->head)			//only make head next point to item if it is the 2nd element
+		{
+			queue->head->next = item;
+		}
+*/
+		queue->count++;						//increase count of elements for printing
 	}
 }
 

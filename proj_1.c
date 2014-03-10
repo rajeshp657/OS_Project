@@ -28,7 +28,7 @@
 void printElement(struct qElement *element) {
 	if (DEBUG) {
 		printf("+-----------+-------------+\n");
-		printf("|     adr:  | %p\n", &*element);
+		printf("|     adr:  | %p\n", element);
 		printf("+-------------------------+\n");
 		printf("| payload:  | %d\n", element->payload);
 		printf("|    prev:  | %p\n", element->prev);
@@ -38,21 +38,22 @@ void printElement(struct qElement *element) {
 }
 
 void printQueue(struct Queue *queue) {
+	int count1 = 1;
 	struct qElement *temp = queue->head;
-	int count = 1;
 
-	if (DEBUG && (queue->head != NULL)) {
+	if (DEBUG && (temp != NULL)) {
 		printf("\n\n");
 		printf("*<<<<<<<<<<<<>>>>>>>>>>>>>*\n");
 		printf("|       PRINT QUEUE       |\n");
 		printf("*<<<<<<<<<<<<>>>>>>>>>>>>>*\n");
-		printf("|  %d :        %p\n", 0, &*temp);
-		printElement(temp);
 		
-		while(temp->next != NULL) {
-		temp = temp->next;
-		printf("|  %d :        %p\n", count, &*temp);
-		printElement(temp); count++;
+		int i;		
+		for(i = 0; i<queue->count; i++)
+		{
+			printf("|  %d:        %p\n", count1, temp);
+			count1++;
+			printElement(temp); 
+			temp = temp->next;
 		}
 		printf("*>>>>>>>>>>>>><<<<<<<<<<<<*\n");
 		printf("|   END OF PRINT QUEUE    |\n");
@@ -73,6 +74,8 @@ int main() {
 	struct qElement *element1 = newItem(); //created a qElement
 	struct qElement *element2 = newItem(); //created a qElement
 	struct qElement *element3 = newItem(); //created a qElement
+	struct qElement *element4 = newItem(); //created a qElement
+	printQueue(&queue);
 
 	printf("\n>>  !  <<\nADDING ELEMENT :\n>>  !  <<\n");
 	printElement(element1);
@@ -89,10 +92,13 @@ int main() {
 	addQueue(&queue, element3);
 	printQueue(&queue);
 
+	addQueue(&queue, element4);
+	printQueue(&queue);
+
 	freeItem(element1);
 	freeItem(element2);
 	freeItem(element3);
-
+	freeItem(element4);
 	return 0;
 }
 
