@@ -17,20 +17,31 @@
  |		linked, circular list.						|
  +--------------------------------------------------+
  */
+#include <stdio.h>
+#include <stdlib.h>
 
-
-/* Queue
+/* q
 		Descrip:	A q-element is a structure, consisting of a prev and next pointer, 
 					and a payload consisting of 1 integer. The header is a pointer to the first 
 					element of the queue. The header is null if the q is empty. */
-struct Queue{
-	int payload;		// integer payload
-	struct Queue *head;	// always points to first element of queue
-	struct Queue *prev;	// pointer to previous element in queue
-	struct Queue *next;	// pointer to next element in queue
+struct q {
+	int payload;	// integer payload
+	struct q *head;	// always points to first element of queue
+	struct q *prev;	// pointer to previous element in queue
+	struct q *next;	// pointer to next element in queue
 };
 
+/*
+								ROUTINE HEADERS
+*/
+void init(q);
+void print(q);
 
+
+
+/*
+								MAIN ROUTINES
+*/
 /******************************************************************************/
 /**		Note:																 **/
 /**		All routines work on pointers. They do NOT copy q-elements.			 **/
@@ -38,43 +49,67 @@ struct Queue{
 /**		You may choose to implement an optional FreeItem(item) routine.		 **/
 /******************************************************************************/
 
-/* NewItem
+/* new
 		Inputs:		NONE
 		Returns:	pointer to a new q-element		
 		Descrip:	creates a new q-element, but does not do anything with it */
-void NewItem() {
+/*
+void new() {
 
 }
+*/
 
-/* InitQueue
+/* init
 		Inputs:		&head, address of head
 		Returns:	VOID
 		Descrip:	creates an empty queue, pointed to by the variable head	*/
-void InitQueue(&head) {
-
+void init(struct q *head){
+	// Initialize payload to 0
+	head->payload = 1;
+	// Set head to NULL
+	head->head = 0;
+	// Set prev to head
+	head->prev = head->head;
+	// Set next to head
+	head->next = head->head;
 }
 
-/* AddQueue
+/* add
 		Inputs:		&head, address of head 
 					item, a queue item
 		Returns:	VOID
 		Descrip:	adds a queue item, pointed to by item, to the queue pointed to by head */
-void AddQueue(&head, item) {
+/*
+void add(&head, item) {
 
 }
+*/
 
-/* DelQueue
+/* delete
 		Inputs:		&head, address of head 
 		Returns:	pointer to the deleted item
 		Descrip:	deletes an item from head */
-void DelQueue(&head) {
+/*
+void delete(&head) {
 
 }
+/*
 
-/* RotateQueue
+/* rotate
 		Inputs:		&head, address of head 
 		Returns:	VOID
 		Descrip:	moves the header pointer to the next element in the queue */
-void RotateQueue(&head) {
+/*
+void rotate(&head) {
 
+}
+/*
+
+/*
+								SUPPORT FUNCTIONS
+*/
+
+// prints the payload value of each queue element
+void print(struct q *head) {
+	printf("%d", head->payload);
 }
