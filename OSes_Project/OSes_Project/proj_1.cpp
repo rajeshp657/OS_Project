@@ -12,24 +12,43 @@
  | Description:								        |
  |		This program is used to implement test		|
  |		case scenarios in order to prove that		|
- |		all requirements on q.h are met.			|
+ |		all requirements on q.hpp are met.			|
  +--------------------------------------------------+
  */
 #include "q.hpp"
 
-/**		This file should be compiled using "gcc proj_1.c"		**/
-
-int main() {
-	struct q *Queue;	// this is our queue pointer
-	struct q head;
-	Queue = (struct q *) malloc(sizeof(struct q));
-
-	Queue->init(head);
-	Queue->print();
-
-	return 0;
-}
+/**		This program should be compiled using "gcc proj_1.c"		**/
 
 /*
 								SUPPORT FUNCTIONS
 */
+
+// prints the payload value of each queue element
+// assumes that the pointer passed is a pointer to the head of the queue
+void print_element(struct q &q_element) {
+	if (DEBUG) {
+		using namespace std;
+
+		cout << "+----------+----+" << endl;
+		cout << "| payload: | " << q_element.payload << endl;
+		cout << "+----------+---------+" << endl;
+		cout << "+   head:  | " << &*q_element.head << endl;
+		cout << "+   prev:  | " << &*q_element.prev << endl;
+		cout << "+   next:  | " << &*q_element.next << endl;
+		cout << "+----------+---------+" << endl;
+	}
+}
+
+int main() {
+	using namespace std;
+
+	struct q Queue = {};	// this is an empty queue for testing
+	
+	struct q someHead = {};	// a random q-element
+
+	Queue.init(someHead);
+	print_element(Queue);
+
+	return 0;
+}
+

@@ -17,28 +17,49 @@
  |		linked, circular list.						|
  +--------------------------------------------------+
  */
-#include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
+
+#define DEBUG 1
 
 /* q
 		Descrip:	A q-element is a structure, consisting of a prev and next pointer, 
 					and a payload consisting of 1 integer. The header is a pointer to the first 
 					element of the queue. The header is null if the q is empty. */
 struct q {
+
 	int payload;	// integer payload
 	struct q *head;	// always points to first element of queue
 	struct q *prev;	// pointer to previous element in queue
 	struct q *next;	// pointer to next element in queue
 
-	// Main routines
-	void init(struct q head);
-	void print();
+	/* init
+		Inputs:		&head, address of head
+		Returns:	VOID
+		Descrip:	creates an empty queue, pointed to by the variable head	*/
+	void init(struct q &someHead) {
+		using namespace std;
+		if (DEBUG) {
+			cout << "+--------------+" << endl;
+			cout << "+- BEFORE init +----------+" << endl;
+			cout << "|   src adr :  | " << &someHead << " |" << endl;
+			cout << "|   dest adr:  | " << &*head << " |" << endl;
+			cout << "+-------------------------+" << endl;
+		}
+
+		head = &someHead;
+		prev = &someHead;
+		next = &someHead;
+
+		if (DEBUG) {
+			cout << "+--------------+" << endl;
+			cout << "+- AFTER init  +----------+" << endl;
+			cout << "|   src adr :  | " << &someHead << " |"  << endl;
+			cout << "|   dest adr:  | " << &*head << " |" << endl;
+			cout << "+--------------+----------+" << endl;
+		}
+	}
 };
-
-/*
-								ROUTINE HEADERS
-*/
-
 
 /*
 								MAIN ROUTINES
@@ -55,25 +76,12 @@ struct q {
 		Returns:	pointer to a new q-element		
 		Descrip:	creates a new q-element, but does not do anything with it */
 /*
-void new() {
+void q::new() {
 
 }
 */
 
-/* init
-		Inputs:		&head, address of head
-		Returns:	VOID
-		Descrip:	creates an empty queue, pointed to by the variable head	*/
-void init(struct q *&head) {
-	// Initialize payload to 0
-	head->payload = 0;
-	// Set head to NULL
-	head->head = NULL;
-	// Set prev to head
-	head->prev = head->head;
-	// Set next to head
-	head->next = head->head;
-}
+
 
 /* add
 		Inputs:		&head, address of head 
@@ -81,7 +89,7 @@ void init(struct q *&head) {
 		Returns:	VOID
 		Descrip:	adds a queue item, pointed to by item, to the queue pointed to by head */
 /*
-void add(&head, item) {
+void q::add(&head, item) {
 
 }
 */
@@ -91,7 +99,7 @@ void add(&head, item) {
 		Returns:	pointer to the deleted item
 		Descrip:	deletes an item from head */
 /*
-void delete(&head) {
+void q::delete(&head) {
 
 }
 /*
@@ -101,18 +109,7 @@ void delete(&head) {
 		Returns:	VOID
 		Descrip:	moves the header pointer to the next element in the queue */
 /*
-void rotate(&head) {
+void q::rotate(&head) {
 
 }
-/*
-
-/*
-								SUPPORT FUNCTIONS
 */
-
-// prints the payload value of each queue element
-// assumes that the pointer passed is a pointer to the head of the queue
-void q::print() {
-	//if (head->head
-	printf("%d", payload);
-}
