@@ -93,16 +93,10 @@ void addQueue(struct Queue *queue, struct qElement *item) {
 
 		struct qElement *tail = queue->head->prev; 		//tail element
 		
-		item->next = queue->head;					//next points to head
+		item->next = queue->head;				//next points to head
 		item->prev = tail;
 		queue->head->prev = item; 				//set head tail to item
 		tail->next = item;					//make old tail next point to item
-/*
-		if(queue->head->next == queue->head)			//only make head next point to item if it is the 2nd element
-		{
-			queue->head->next = item;
-		}
-*/
 		queue->count++;						//increase count of elements for printing
 	}
 }
