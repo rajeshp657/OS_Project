@@ -20,6 +20,13 @@
 #include <iostream>
 #include <stdlib.h>
 
+/******************************************************************************/
+/**		Note:																 **/
+/**		All routines work on pointers. They do NOT copy q-elements.			 **/
+/**		Also, they do not allocate/deallocate space [except NewItem()].		 **/
+/**		You may choose to implement an optional FreeItem(item) routine.		 **/
+/******************************************************************************/
+
 #define DEBUG 1
 
 /* q
@@ -32,6 +39,10 @@ struct q {
 	struct q *head;	// always points to first element of queue
 	struct q *prev;	// pointer to previous element in queue
 	struct q *next;	// pointer to next element in queue
+
+	
+	//							MAIN ROUTINES
+	
 
 	/* init
 		Inputs:		&head, address of head
@@ -59,57 +70,47 @@ struct q {
 			cout << "+--------------+----------+" << endl;
 		}
 	}
-};
 
-/*
-								MAIN ROUTINES
-*/
-/******************************************************************************/
-/**		Note:																 **/
-/**		All routines work on pointers. They do NOT copy q-elements.			 **/
-/**		Also, they do not allocate/deallocate space [except NewItem()].		 **/
-/**		You may choose to implement an optional FreeItem(item) routine.		 **/
-/******************************************************************************/
-
-/* new
+	/* new
 		Inputs:		NONE
 		Returns:	pointer to a new q-element		
 		Descrip:	creates a new q-element, but does not do anything with it */
-/*
-void q::new() {
+	/*
+	void q::new() {
 
-}
-*/
+	}
+	*/
 
 
 
-/* add
-		Inputs:		&head, address of head 
-					item, a queue item
-		Returns:	VOID
-		Descrip:	adds a queue item, pointed to by item, to the queue pointed to by head */
-/*
-void q::add(&head, item) {
+	/* add
+			Inputs:		&head, address of head 
+						item, a queue item
+			Returns:	VOID
+			Descrip:	adds a queue item, pointed to by item, to the queue pointed to by head */
+	/*
+	void q::add(&head, item) {
 
-}
-*/
+	}
+	*/
 
-/* delete
-		Inputs:		&head, address of head 
-		Returns:	pointer to the deleted item
-		Descrip:	deletes an item from head */
-/*
-void q::delete(&head) {
+	/* delete
+			Inputs:		&head, address of head 
+			Returns:	pointer to the deleted item
+			Descrip:	deletes an item from head */
+	/*
+	void q::delete(&head) {
 
-}
-/*
+	}
+	/*
 
-/* rotate
-		Inputs:		&head, address of head 
-		Returns:	VOID
-		Descrip:	moves the header pointer to the next element in the queue */
-/*
-void q::rotate(&head) {
+	/* rotate
+			Inputs:		&head, address of head 
+			Returns:	VOID
+			Descrip:	moves the header pointer to the next element in the queue */
+	/*
+	void q::rotate(&head) {
 
-}
-*/
+	}
+	*/
+};
