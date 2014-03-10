@@ -1,6 +1,6 @@
 /*
  +--------------------------------------------------+
- |	Filename: q.h								    |
+ |	Filename: q.hpp								    |
  +--------------------------------------------------+
  |		     CSE 430, Programming Project 2	        |
  |			     Dasgupta T, Th 4:30 pm			    |
@@ -29,14 +29,15 @@ struct q {
 	struct q *head;	// always points to first element of queue
 	struct q *prev;	// pointer to previous element in queue
 	struct q *next;	// pointer to next element in queue
+
+	// Main routines
+	void init(struct q head);
+	void print();
 };
 
 /*
 								ROUTINE HEADERS
 */
-void init(q);
-void print(q);
-
 
 
 /*
@@ -63,11 +64,11 @@ void new() {
 		Inputs:		&head, address of head
 		Returns:	VOID
 		Descrip:	creates an empty queue, pointed to by the variable head	*/
-void init(struct q *head){
+void init(struct q *&head) {
 	// Initialize payload to 0
-	head->payload = 1;
+	head->payload = 0;
 	// Set head to NULL
-	head->head = 0;
+	head->head = NULL;
 	// Set prev to head
 	head->prev = head->head;
 	// Set next to head
@@ -110,6 +111,8 @@ void rotate(&head) {
 */
 
 // prints the payload value of each queue element
-void print(struct q *head) {
-	printf("%d", head->payload);
+// assumes that the pointer passed is a pointer to the head of the queue
+void q::print() {
+	//if (head->head
+	printf("%d", payload);
 }

@@ -1,6 +1,6 @@
 /*
  +--------------------------------------------------+
- |	Filename: proj_1.c							    |
+ |	Filename: proj_1.cpp						    |
  +--------------------------------------------------+
  |		    CSE 430, Programming Project 2	        |
  |			    Dasgupta T, Th 4:30 pm			    |
@@ -15,16 +15,17 @@
  |		all requirements on q.h are met.			|
  +--------------------------------------------------+
  */
-#include "q.h"
+#include "q.hpp"
 
 /**		This file should be compiled using "gcc proj_1.c"		**/
 
 int main() {
 	struct q *Queue;	// this is our queue pointer
+	struct q head;
 	Queue = (struct q *) malloc(sizeof(struct q));
-	
-	init(Queue);
-	print(Queue);
+
+	Queue->init(head);
+	Queue->print();
 
 	return 0;
 }
