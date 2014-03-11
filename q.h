@@ -85,12 +85,35 @@ void freeItem(struct qElement *element)
 
 
 /* addQueue
-		Inputs:		&head, address of head 
-					item, a queue item
-		Returns:	VOID
-		Descrip:	adds a queue item, pointed to by item, to the queue pointed to by head */
+ *    Inputs:    &head, address of head to be added to 
+ *               item, a queue element
+ *    Returns:   VOID
+ *    Descrip:   adds a queue item, pointed to by item, to the queue pointed to by head */
 void addQueue(struct Queue *queue, struct qElement *item) {
+	// Construct temp pointer as iterator
+	struct qElement *temp;
+
+	// Case where queue is empty, queue->head is NULL
+	if (queue->head == NULL) {
+		// Insert item as first element
+		queue->head = item;
+		item->prev = NULL;
+		item->next = NULL;
+	} else {					// Case where the queue is not empty
+		temp = queue->head;		// temp should start at the head
+		// Loop through queue until we have pointer to last element
+		while(temp->next != NULL) {
+			// Move temp pointer to next element
+			temp = temp->next;
+		}   					// When loop ends, temp->next points to the end of the list
+		
+		// Add item to end of the queue
+		temp->next = item;		// temp->next should point to item
+		item->prev = temp;		// item->prev should point to temp
+		item->next = NULL;//queue->head;	// item->next should point to head of queue, because it is the last element
+	}
 	
+	 
 }
 
 

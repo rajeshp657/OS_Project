@@ -25,31 +25,60 @@
 
 // prints the payload value of each queue element
 // assumes that the pointer passed is a pointer to the head of the queue
-void print_element(struct qElement *element) {
+void printElement(struct qElement *element) {
 	if (DEBUG) {
+		printf("+-----------+------------+\n");
+		printf("|     Adr:  | %p\n", &*element);
+		printf("+------------------------+\n");
+		printf("| payload:  | %d\n", element->payload);
+		printf("|    prev:  | %p\n", element->prev);
+		printf("|    next:  | %p\n", element->next);
+		printf("+-----------+------------+\n");
+	}
+}
 
-		printf("+----------+----+\n");
-		printf("| payload: | %d |\n", element->payload);
-		printf("+----------+-------------+\n");
-		printf("+   prev:  | %p\n", element->prev);
-		printf("+   next:  | %p\n", element->next);
-		printf("+----------+-------------+\n");
+void printQueue(struct Queue *queue) {
+	struct qElement *temp = queue->head;
+	int count = 1;
+
+	if (DEBUG && (queue->head != NULL)) {
+		printf("\n");
+		printf("      +-----------+\n");
+		printf("      |   QUEUE   |\n");
+		printf("+-----------+------------+\n");
+		printf("| Element[%d]: %p\n", 0, &*temp);
+		printElement(temp);
+		
+		while(temp->next != NULL) {
+		temp = temp->next;
+		printf("| Element[%d]: %p\n", count, &*temp);
+		printElement(temp);
+		}
+		
+		printf("\n");
 	}
 }
 
 int main() {
 
 	struct Queue queue;	// allocate memory for queue
-	printf("    queue: %p\n",&queue);
-	printf("    head:  %p\n",&queue.head);
-
 	initQueue(&queue); 	//create an empty queue
 
-	struct qElement *element = newItem(); //created a qElement
+	struct qElement *element1 = newItem(); //created a qElement
+	struct qElement *element2 = newItem(); //created a qElement
 
-	print_element(element);
+	printElement(element1);
+	addQueue(&queue, element1);
+	printf("    done adding\n");
+	printQueue(&queue);
 
-	freeItem(element);
+	printElement(element2);
+	addQueue(&queue, element2);
+	printf("    done adding\n");
+	printQueue(&queue);
+
+	//freeItem(element1);
+	//freeItem(element2);
 
 	return 0;
 }
