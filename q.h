@@ -82,8 +82,8 @@ void addQueue(struct Queue *queue, struct qElement *item) {
 	if (queue->head == NULL) {
 		// Insert item as first element
 		queue->head = item;
-		item->prev = NULL;
-		item->next = NULL;
+		item->prev = item;		// prev should point at itself
+		item->next = NULL;		// point to NULL just as placeholder for printing, should actually point to itself
 	} else {					// Case where the queue is not empty
 		temp = queue->head;		// temp should start at the head
 		// Loop through queue until we have pointer to last element
@@ -96,6 +96,8 @@ void addQueue(struct Queue *queue, struct qElement *item) {
 		temp->next = item;		// temp->next should point to item
 		item->prev = temp;		// item->prev should point to temp
 		item->next = NULL;//queue->head;	// item->next should point to head of queue, because it is the last element
+		// Link the first element to the last element
+		queue->head->prev = item;
 	}
 }
 
