@@ -49,24 +49,9 @@ struct Queue{
  *    Returns:   VOID
  *    Descrip:   creates an empty queue, pointed to by the variable head	*/
 void initQueue(struct Queue *queue) {
-	if (DEBUG) {
-		printf("+--------------+\n");
-		printf("+- BEFORE init +-----------------+\n");
-		printf("|   q adr   :  | %p |\n", &*queue);
-		printf("|   head adr:  | %p |\n", &*queue->head);
-		printf("+--------------------------------+\n");
-	}
-
 	queue->head=NULL;	// initialize head to NULL
-
-	if (DEBUG) {
-		printf("+--------------+\n");
-		printf("+- AFTER init  +-----------------+\n");
-		printf("|   q adr   :  | %p |\n", &*queue);
-		printf("|   head adr:  | %p \n", &*queue->head);
-		printf("+--------------+-----------------+\n");
-	}
 }
+
 
 /* newItem
  *    Inputs:    NONE
@@ -112,8 +97,6 @@ void addQueue(struct Queue *queue, struct qElement *item) {
 		item->prev = temp;		// item->prev should point to temp
 		item->next = NULL;//queue->head;	// item->next should point to head of queue, because it is the last element
 	}
-	
-	 
 }
 
 
