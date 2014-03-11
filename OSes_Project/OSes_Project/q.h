@@ -17,9 +17,8 @@
  |		linked, circular list.						|
  +--------------------------------------------------+
  */
-#include <iostream>
+#include <stdio.h>
 #include <stdlib.h>
-
 /******************************************************************************/
 /**		Note:																 **/
 /**		All routines work on pointers. They do NOT copy q-elements.			 **/
@@ -33,54 +32,56 @@
 		Descrip:	A q-element is a structure, consisting of a prev and next pointer, 
 					and a payload consisting of 1 integer. The header is a pointer to the first 
 					element of the queue. The header is null if the q is empty. */
-struct q {
+struct qElement {
 
 	int payload;	// integer payload
-	struct q *head;	// always points to first element of queue
-	struct q *prev;	// pointer to previous element in queue
-	struct q *next;	// pointer to next element in queue
+	struct qElement *prev;	// pointer to previous element in queue
+	struct qElement *next;	// pointer to next element in queue
+};
 
-	
-	//							MAIN ROUTINES
+struct Queue{
+	struct q* head; //points to first element in queue
+};
 	
 
 	/* init
 		Inputs:		&head, address of head
 		Returns:	VOID
 		Descrip:	creates an empty queue, pointed to by the variable head	*/
-	void init(struct q &someHead) {
-		using namespace std;
-		if (DEBUG) {
+	void initQueue(struct Queue *queue) {
+	/*	if (DEBUG) {
 			cout << "+--------------+" << endl;
 			cout << "+- BEFORE init +----------+" << endl;
-			cout << "|   src adr :  | " << &someHead << " |" << endl;
-			cout << "|   dest adr:  | " << &*head << " |" << endl;
+			cout << "|   src adr :  | " << &queue << " |" << endl;
 			cout << "+-------------------------+" << endl;
-		}
+		}*/
 
-		head = &someHead;
-		prev = &someHead;
-		next = &someHead;
-
+		queue->head=NULL;	// points to first element of queue
+/*
 		if (DEBUG) {
 			cout << "+--------------+" << endl;
 			cout << "+- AFTER init  +----------+" << endl;
-			cout << "|   src adr :  | " << &someHead << " |"  << endl;
-			cout << "|   dest adr:  | " << &*head << " |" << endl;
+			cout << "|   src adr :  | " << &queue << " |"  << endl;
 			cout << "+--------------+----------+" << endl;
-		}
+		}*/
 	}
 
 	/* new
 		Inputs:		NONE
 		Returns:	pointer to a new q-element		
 		Descrip:	creates a new q-element, but does not do anything with it */
-	/*
-	void q::new() {
+	
+	struct qElement* newItem()
+	{
+		struct qElement *element = (struct qElement*)malloc(sizeof(struct qElement));
+		return element;
 
 	}
-	*/
 
+	void freeItem(struct qElement *element)
+	{
+		free(element);
+	}
 
 
 	/* add
@@ -113,4 +114,4 @@ struct q {
 
 	}
 	*/
-};
+
