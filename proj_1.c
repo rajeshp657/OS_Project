@@ -25,30 +25,73 @@
 
 // prints the payload value of each queue element
 // assumes that the pointer passed is a pointer to the head of the queue
-void print_element(struct qElement *element) {
+void printElement(struct qElement *element) {
 	if (DEBUG) {
-
-		printf("%s\n","+----------+----+");
-		printf("%s%d\n","| payload: | ",element->payload);
-		printf("%s\n","+----------+---------+");
-		printf("%s%p\n","+   prev:  | ",element->prev);
-		printf("%s%p\n","+   next:  | ",element->next);
-		printf("%s\n","+----------+---------+");
+		printf("+-----------+-------------+\n");
+		printf("|     adr:  | %p\n", &*element);
+		printf("+-------------------------+\n");
+		printf("| payload:  | %d\n", element->payload);
+		printf("|    prev:  | %p\n", element->prev);
+		printf("|    next:  | %p\n", element->next);
+		printf("+-----------+-------------+\n");
 	}
 }
 
+void printQueue(struct Queue *queue) {
+	struct qElement *temp = queue->head;
+	int count = 1;
+
+	if (DEBUG && (queue->head != NULL)) {
+		printf("\n\n");
+		printf("*<<<<<<<<<<<<>>>>>>>>>>>>>*\n");
+		printf("|       PRINT QUEUE       |\n");
+		printf("*<<<<<<<<<<<<>>>>>>>>>>>>>*\n");
+		printf("|  %d :        %p\n", 0, &*temp);
+		printElement(temp);
+		
+		while(temp->next != NULL) {
+		temp = temp->next;
+		printf("|  %d :        %p\n", count, &*temp);
+		printElement(temp); count++;
+		}
+		printf("*>>>>>>>>>>>>><<<<<<<<<<<<*\n");
+		printf("|   END OF PRINT QUEUE    |\n");
+		printf("*>>>>>>>>>>>>><<<<<<<<<<<<*\n");
+		printf("\n");
+
+	}
+}
+
+/*
+						MAIN
+*/
 int main() {
 
 	struct Queue queue;	// allocate memory for queue
-	
+	initQueue(&queue); 	//create an empty queue
 
-	initQueue(&queue); 		//create an empty queue
+	struct qElement *element1 = newItem(); //created a qElement
+	struct qElement *element2 = newItem(); //created a qElement
+	struct qElement *element3 = newItem(); //created a qElement
 
-	struct qElement *element = newItem(); //created a qElement
+	printf("\n>>  !  <<\nADDING ELEMENT :\n>>  !  <<\n");
+	printElement(element1);
+	addQueue(&queue, element1);
+	printQueue(&queue);
 
-	print_element(element);
+	printf("\n>>  !  <<\nADDING ELEMENT :\n>>  !  <<\n");
+	printElement(element2);
+	addQueue(&queue, element2);
+	printQueue(&queue);
 
-	freeItem(element);
+	printf("\n>>  !  <<\nADDING ELEMENT :\n>>  !  <<\n");
+	printElement(element3);
+	addQueue(&queue, element3);
+	printQueue(&queue);
+
+	freeItem(element1);
+	freeItem(element2);
+	freeItem(element3);
 
 	return 0;
 }

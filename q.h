@@ -19,7 +19,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
- 
 /******************************************************************************/
 /**	Note:                                                                    **/
 /**	All routines work on pointers. They do NOT copy q-elements.              **/
@@ -41,78 +40,83 @@ struct qElement {
 };
 
 struct Queue{
-	struct q* head; //points to first element in queue
+	struct qElement* head; //points to first element in queue
 };
 	
 
-	/* init
-		Inputs:		&head, address of head
-		Returns:	VOID
-		Descrip:	creates an empty queue, pointed to by the variable head	*/
-	void initQueue(struct Queue *queue) {
-	/*	if (DEBUG) {
-			cout << "+--------------+" << endl;
-			cout << "+- BEFORE init +----------+" << endl;
-			cout << "|   src adr :  | " << &queue << " |" << endl;
-			cout << "+-------------------------+" << endl;
-		}*/
+/* initQueue
+ *    Inputs:    &head, address of head
+ *    Returns:   VOID
+ *    Descrip:   creates an empty queue, pointed to by the variable head	*/
+void initQueue(struct Queue *queue) {
+	queue->head=NULL;	// initialize head to NULL
+}
 
-		queue->head=NULL;	// points to first element of queue
+
+/* newItem
+ *    Inputs:    NONE
+ *    Returns:   pointer to a new q-element		
+ *    Descrip:   creates a new q-element, but does not do anything with it */
+struct qElement* newItem()
+{
+	struct qElement *element = (struct qElement*)malloc(sizeof(struct qElement));
+	return element;
+}
+
+void freeItem(struct qElement *element)
+{
+	free(element);
+}
+
+
+/* addQueue
+ *    Inputs:    &head, address of head to be added to 
+ *               item, a queue element
+ *    Returns:   VOID
+ *    Descrip:   adds a queue item, pointed to by item, to the queue pointed to by head */
+void addQueue(struct Queue *queue, struct qElement *item) {
+	// Construct temp pointer as iterator
+	struct qElement *temp;
+
+	// Case where queue is empty, queue->head is NULL
+	if (queue->head == NULL) {
+		// Insert item as first element
+		queue->head = item;
+		item->prev = NULL;
+		item->next = NULL;
+	} else {					// Case where the queue is not empty
+		temp = queue->head;		// temp should start at the head
+		// Loop through queue until we have pointer to last element
+		while(temp->next != NULL) {
+			// Move temp pointer to next element
+			temp = temp->next;
+		}   					// When loop ends, temp->next points to the end of the list
+		
+		// Add item to end of the queue
+		temp->next = item;		// temp->next should point to item
+		item->prev = temp;		// item->prev should point to temp
+		item->next = NULL;//queue->head;	// item->next should point to head of queue, because it is the last element
+	}
+}
+
+
+/* delete
+		Inputs:		&head, address of head 
+		Returns:	pointer to the deleted item
+		Descrip:	deletes an item from head */
 /*
-		if (DEBUG) {
-			cout << "+--------------+" << endl;
-			cout << "+- AFTER init  +----------+" << endl;
-			cout << "|   src adr :  | " << &queue << " |"  << endl;
-			cout << "+--------------+----------+" << endl;
-		}*/
-	}
+void q::delete(&head) {
 
-	/* new
-		Inputs:		NONE
-		Returns:	pointer to a new q-element		
-		Descrip:	creates a new q-element, but does not do anything with it */
-	
-	struct qElement* newItem()
-	{
-		struct qElement *element = (struct qElement*)malloc(sizeof(struct qElement));
-		return element;
+}
+/*
 
-	}
+/* rotate
+		Inputs:		&head, address of head 
+		Returns:	VOID
+		Descrip:	moves the header pointer to the next element in the queue */
+/*
+void q::rotate(&head) {
 
-	void freeItem(struct qElement *element)
-	{
-		free(element);
-	}
-
-
-	/* add
-			Inputs:		&head, address of head 
-						item, a queue item
-			Returns:	VOID
-			Descrip:	adds a queue item, pointed to by item, to the queue pointed to by head */
-	/*
-	void q::add(&head, item) {
-
-	}
-	*/
-
-	/* delete
-			Inputs:		&head, address of head 
-			Returns:	pointer to the deleted item
-			Descrip:	deletes an item from head */
-	/*
-	void q::delete(&head) {
-
-	}
-	/*
-
-	/* rotate
-			Inputs:		&head, address of head 
-			Returns:	VOID
-			Descrip:	moves the header pointer to the next element in the queue */
-	/*
-	void q::rotate(&head) {
-
-	}
-	*/
+}
+*/
 
