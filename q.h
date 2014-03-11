@@ -1,29 +1,30 @@
 /*
  +--------------------------------------------------+
- |	Filename: q.hpp								    |
+ |	Filename: q.h                                   |
  +--------------------------------------------------+
- |		     CSE 430, Programming Project 2	        |
- |			     Dasgupta T, Th 4:30 pm			    |
- |				     March 27, 2014				    |
- |												    |
- |		  Group:	Doug Sheridan, 1202789648	    |
- |					Amy Mazzola,				    |
+ |           CSE 430, Programming Project 2         |
+ |               Dasgupta T, Th 4:30 pm             |
+ |                   March 27, 2014                 |
+ |                                                  |
+ |          Group: Doug Sheridan, 1202789648        |
+ |                 Amy Mazzola,                     |
  +--------------------------------------------------+
- | Description:								        |
- |		This program contains routines necessary	|
- |		to perform standard queuing functions.		|
- |		The functions work on multiple queues,		|
- |		and structure each queue as a doubly		|
- |		linked, circular list.						|
+ | Description:                                     |
+ |    This program contains routines necessary      |
+ |    to perform standard queuing functions.        |
+ |    The functions work on multiple queues,        |
+ |    and structure each queue as a doubly          |
+ |    linked, circular list.                        |
  +--------------------------------------------------+
  */
 #include <stdio.h>
 #include <stdlib.h>
+ 
 /******************************************************************************/
-/**		Note:																 **/
-/**		All routines work on pointers. They do NOT copy q-elements.			 **/
-/**		Also, they do not allocate/deallocate space [except NewItem()].		 **/
-/**		You may choose to implement an optional FreeItem(item) routine.		 **/
+/**	Note:                                                                    **/
+/**	All routines work on pointers. They do NOT copy q-elements.              **/
+/**	Also, they do not allocate/deallocate space [except NewItem()].          **/
+/**	You may choose to implement an optional FreeItem(item) routine.          **/
 /******************************************************************************/
 
 #define DEBUG 1
