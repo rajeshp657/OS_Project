@@ -1,6 +1,6 @@
 /*
  +--------------------------------------------------+
- |	Filename: q.h                                   |
+ | Filename: q.h                                    |
  +--------------------------------------------------+
  |           CSE 430, Programming Project 2         |
  |               Dasgupta T, Th 4:30 pm             |
@@ -19,7 +19,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
- 
 /******************************************************************************/
 /**	Note:                                                                    **/
 /**	All routines work on pointers. They do NOT copy q-elements.              **/
