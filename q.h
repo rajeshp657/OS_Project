@@ -40,78 +40,77 @@ struct qElement {
 };
 
 struct Queue{
-	struct q* head; //points to first element in queue
+	struct qElement* head; //points to first element in queue
 };
 	
 
-	/* init
-		Inputs:		&head, address of head
+/* initQueue
+ *    Inputs:    &head, address of head
+ *    Returns:   VOID
+ *    Descrip:   creates an empty queue, pointed to by the variable head	*/
+void initQueue(struct Queue *queue) {
+	if (DEBUG) {
+		printf("+--------------+\n");
+		printf("+- BEFORE init +-----------------+\n");
+		printf("|   q adr   :  | %p |\n", &*queue);
+		printf("|   head adr:  | %p |\n", &*queue->head);
+		printf("+--------------------------------+\n");
+	}
+
+	queue->head=NULL;	// initialize head to NULL
+
+	if (DEBUG) {
+		printf("+--------------+\n");
+		printf("+- AFTER init  +-----------------+\n");
+		printf("|   q adr   :  | %p |\n", &*queue);
+		printf("|   head adr:  | %p \n", &*queue->head);
+		printf("+--------------+-----------------+\n");
+	}
+}
+
+/* newItem
+ *    Inputs:    NONE
+ *    Returns:   pointer to a new q-element		
+ *    Descrip:   creates a new q-element, but does not do anything with it */
+struct qElement* newItem()
+{
+	struct qElement *element = (struct qElement*)malloc(sizeof(struct qElement));
+	return element;
+}
+
+void freeItem(struct qElement *element)
+{
+	free(element);
+}
+
+
+/* addQueue
+		Inputs:		&head, address of head 
+					item, a queue item
 		Returns:	VOID
-		Descrip:	creates an empty queue, pointed to by the variable head	*/
-	void initQueue(struct Queue *queue) {
-	/*	if (DEBUG) {
-			cout << "+--------------+" << endl;
-			cout << "+- BEFORE init +----------+" << endl;
-			cout << "|   src adr :  | " << &queue << " |" << endl;
-			cout << "+-------------------------+" << endl;
-		}*/
-
-		queue->head=NULL;	// points to first element of queue
-/*
-		if (DEBUG) {
-			cout << "+--------------+" << endl;
-			cout << "+- AFTER init  +----------+" << endl;
-			cout << "|   src adr :  | " << &queue << " |"  << endl;
-			cout << "+--------------+----------+" << endl;
-		}*/
-	}
-
-	/* new
-		Inputs:		NONE
-		Returns:	pointer to a new q-element		
-		Descrip:	creates a new q-element, but does not do anything with it */
+		Descrip:	adds a queue item, pointed to by item, to the queue pointed to by head */
+void addQueue(struct Queue *queue, struct qElement *item) {
 	
-	struct qElement* newItem()
-	{
-		struct qElement *element = (struct qElement*)malloc(sizeof(struct qElement));
-		return element;
-
-	}
-
-	void freeItem(struct qElement *element)
-	{
-		free(element);
-	}
+}
 
 
-	/* add
-			Inputs:		&head, address of head 
-						item, a queue item
-			Returns:	VOID
-			Descrip:	adds a queue item, pointed to by item, to the queue pointed to by head */
-	/*
-	void q::add(&head, item) {
+/* delete
+		Inputs:		&head, address of head 
+		Returns:	pointer to the deleted item
+		Descrip:	deletes an item from head */
+/*
+void q::delete(&head) {
 
-	}
-	*/
+}
+/*
 
-	/* delete
-			Inputs:		&head, address of head 
-			Returns:	pointer to the deleted item
-			Descrip:	deletes an item from head */
-	/*
-	void q::delete(&head) {
+/* rotate
+		Inputs:		&head, address of head 
+		Returns:	VOID
+		Descrip:	moves the header pointer to the next element in the queue */
+/*
+void q::rotate(&head) {
 
-	}
-	/*
-
-	/* rotate
-			Inputs:		&head, address of head 
-			Returns:	VOID
-			Descrip:	moves the header pointer to the next element in the queue */
-	/*
-	void q::rotate(&head) {
-
-	}
-	*/
+}
+*/
 

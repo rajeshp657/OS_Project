@@ -1,4 +1,4 @@
-/* Doug Branch
+/*
  +--------------------------------------------------+
  | Filename: proj_1.c                               |
  +--------------------------------------------------+
@@ -28,21 +28,22 @@
 void print_element(struct qElement *element) {
 	if (DEBUG) {
 
-		printf("%s\n","+----------+----+");
-		printf("%s%d\n","| payload: | ",element->payload);
-		printf("%s\n","+----------+---------+");
-		printf("%s%p\n","+   prev:  | ",element->prev);
-		printf("%s%p\n","+   next:  | ",element->next);
-		printf("%s\n","+----------+---------+");
+		printf("+----------+----+\n");
+		printf("| payload: | %d |\n", element->payload);
+		printf("+----------+-------------+\n");
+		printf("+   prev:  | %p\n", element->prev);
+		printf("+   next:  | %p\n", element->next);
+		printf("+----------+-------------+\n");
 	}
 }
 
 int main() {
 
 	struct Queue queue;	// allocate memory for queue
-	
+	printf("    queue: %p\n",&queue);
+	printf("    head:  %p\n",&queue.head);
 
-	initQueue(&queue); 		//create an empty queue
+	initQueue(&queue); 	//create an empty queue
 
 	struct qElement *element = newItem(); //created a qElement
 
