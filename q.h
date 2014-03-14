@@ -77,47 +77,65 @@ void freeItem(struct qElement *element)
  *    Returns:   VOID
  *    Descrip:   adds a queue item, pointed to by item, to the queue pointed to by head */
 void addQueue(struct Queue *queue, struct qElement *item) {
-
-
 	// Case where queue is empty, queue->head is NULL
-	if (queue->head == NULL)
-	{
+	if (queue->head == NULL) {
 		// Insert item as first element
-		queue->head = item;			//head points to first element					
-		queue->head->prev = item;		//prev should point at itself
-		queue->head->next = item;		//next points to itself 
-		queue->count++;				//increase count of elements for printing
-	} 
-	
-	else {
-
-		struct qElement *tail = queue->head->prev; 		//tail element
-		
-		item->next = queue->head;				//next points to head
-		item->prev = tail;
-		queue->head->prev = item; 				//set head tail to item
-		tail->next = item;					//make old tail next point to item
-		queue->count++;						//increase count of elements for printing
+		queue->head = item;			// head points to first element					
+		queue->head->prev = item;	// prev should point at itself
+		queue->head->next = item;	// next points to itself 
+		queue->count++;				// increase count of elements for printing
+	} else {
+		struct qElement *tail = queue->head->prev; 		// tail element
+		item->next = queue->head;	// next points to head
+		item->prev = tail;			// link first element to last element
+		queue->head->prev = item; 	// set head tail to item
+		tail->next = item;			// make old tail next point to item
+		queue->count++;				// increase count of elements for printing
 	}
 }
 
 
-/* delete
-		Inputs:		&head, address of head 
-		Returns:	pointer to the deleted item
-		Descrip:	deletes an item from head */
-/*
-void q::delete(&head) {
+/* DelQueue
+ *		Inputs:		&head, address of head 
+ *		Returns:	pointer to the deleted item
+ *		Descrip:	deletes an item from head, assumes FIFO structure */
+struct qElement* DelQueue(struct Queue *queue) {
+	struct qElement *temp;
+	
+	// Check if queue is empty
+	if (queue->head != NULL) {
+		temp  = queue->head; // save a pointer to the first element
 
+		// Remove the first element, because we can assume FIFO
+		if ((queue->head != queue->head->prev) && (queue->head != queue->head->next)) {		 // if there are more than one elements
+			queue->head->next->prev = queue->head->prev; // Set 2nd element's prev to the last element
+			queue->head->prev->next = queue->head->next; // Set last element's next to 2nd element
+			queue->count--;					 // decrement count, because we just removed an element
+			queue->head = queue->head->next; // Set the queue head to the 2nd element
+		} else {	// case where there is one element
+			queue->head = NULL;	// head should point to NULL, because there are no more elements in the queue
+			queue->count--;		// this should always set count to 0, if not, there is an error somewhere
+		}
+
+		// Set the deleted element's pointers to NULL
+		temp->next = NULL;
+		temp->prev = NULL;
+
+	} else {	// Queue is empty
+		return NULL;
+	}
+
+	// Return the deleted item
+	return temp;
 }
-/*
 
-/* rotate
+
+/* RotateQ
 		Inputs:		&head, address of head 
 		Returns:	VOID
 		Descrip:	moves the header pointer to the next element in the queue */
 /*
-void q::rotate(&head) {
+void RotateQ(&head) {
 
 }
 */
