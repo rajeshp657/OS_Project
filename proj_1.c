@@ -23,14 +23,15 @@
 					SUPPORT FUNCTIONS
 */
 
-// prints the payload value of each queue element
-// assumes that the pointer passed is a pointer to the head of the queue
-void printElement(struct qElement *element) {
+/* printElement
+ *     Descrip:
+ *         prints the address of TCB_t element assumes that the 
+ *         pointer passed is a pointer to some TCB_t object */
+void printElement(struct TCB_t *element) {
 	if (DEBUG && (element != NULL)) {
 		printf("+-----------+-------------+\n");
 		printf("|     adr:  | %p\n", element);
 		printf("+-------------------------+\n");
-		printf("| payload:  | %d\n", element->payload);
 		printf("|    prev:  | %p\n", element->prev);
 		printf("|    next:  | %p\n", element->next);
 		printf("+-----------+-------------+\n");
@@ -39,9 +40,14 @@ void printElement(struct qElement *element) {
 	}
 }
 
+/* printQueue
+ *     Descrip:
+ *         prints the address of the queue that was passed in,
+ *         prints the addresses of each element within the queue,
+ *         prints next & prev addresses of each TCB_t element */
 void printQueue(struct Queue *queue) {
 	int count1 = 1;
-	struct qElement *temp = queue->head;
+	struct TCB_t *temp = queue->head;
 
 	if (DEBUG) {
 		printf("\n\n");
@@ -60,6 +66,7 @@ void printQueue(struct Queue *queue) {
 			printElement(temp); 
 			temp = temp->next;
 		}
+
 		printf("*>>>>>>>>>>>>><<<<<<<<<<<<*\n");
 		printf("|   END OF PRINT QUEUE    |\n");
 		printf("*>>>>>>>>>>>>><<<<<<<<<<<<*\n");
@@ -74,11 +81,11 @@ int main() {
 	struct Queue queue;	// allocate memory for queue
 	initQueue(&queue); 	//create an empty queue
 
-	struct qElement *item = newItem();
-	struct qElement *element1 = newItem(); //created a qElement
-	struct qElement *element2 = newItem(); //created a qElement
-	struct qElement *element3 = newItem(); //created a qElement
-	struct qElement *element4 = newItem(); //created a qElement
+	struct TCB_t *item = newItem();
+	struct TCB_t *element1 = newItem(); //created a qElement
+	struct TCB_t *element2 = newItem(); //created a qElement
+	struct TCB_t *element3 = newItem(); //created a qElement
+	struct TCB_t *element4 = newItem(); //created a qElement
 	
 	// Test our queue
 	printQueue(&queue);
@@ -103,7 +110,7 @@ int main() {
 	addQueue(&queue, element4);
 	printQueue(&queue);
 
-/*
+
 	printf("\n>>  XX  <<\n    DELETING ELEMENT :\n>>  XX  <<\n");
 	printElement(element1);
 	item = delQueue(&queue);
@@ -118,6 +125,7 @@ int main() {
 	printf("\n>>  -x-  <<\n    DELETED :\n>>  -x-  <<\n");
 	printElement(item);
 
+/*
 	printf("\n>>  XX  <<\n    DELETING ELEMENT :\n>>  XX  <<\n");
 	printElement(element3);
 	item = delQueue(&queue);

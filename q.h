@@ -19,6 +19,9 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "tcb.h"
+ 
 /******************************************************************************/
 /**	Note:                                                                    **/
 /**	All routines work on pointers. They do NOT copy q-elements.              **/
@@ -28,10 +31,9 @@
 
 #define DEBUG 1
 
-/* q
-		Descrip:	A q-element is a structure, consisting of a prev and next pointer, 
-					and a payload consisting of 1 integer. The header is a pointer to the first 
-					element of the queue. The header is null if the q is empty. */
+/* qElement
+		Descrip:	This is a dummy structure that immitates what a TCB_t
+					is. Used for project 1 only. No longer used. */
 struct qElement {
 
 	int payload;	// integer payload
@@ -39,8 +41,12 @@ struct qElement {
 	struct qElement *next;	// pointer to next element in queue
 };
 
-struct Queue{
-	struct qElement* head; //points to first element in queue
+/* Queue
+		Descrip:	A TCB_t is a structure, consisting of a prev and next pointer, 
+					and a payload consisting of 1 integer. The head is a pointer to the first 
+					element of the queue. The head is null if the queue is empty. */
+struct Queue {
+	struct TCB_t* head; //points to first element in queue
 	int count;
 };
 	
@@ -59,13 +65,17 @@ void initQueue(struct Queue *queue) {
  *    Inputs:    NONE
  *    Returns:   pointer to a new q-element		
  *    Descrip:   creates a new q-element, but does not do anything with it */
-struct qElement* newItem()
+struct TCB_t* newItem()
 {
-	struct qElement *element = (struct qElement*)malloc(sizeof(struct qElement));
+	struct TCB_t *element = (struct TCB_t*)malloc(sizeof(struct TCB_t));
 	return element;
 }
 
-void freeItem(struct qElement *element)
+/* freeItem
+ *    Inputs:    NONE
+ *    Returns:   NONE	
+ *    Descrip:   used for removing an element from memory */
+void freeItem(struct TCB_t *element)
 {
 	free(element);
 }
@@ -76,7 +86,7 @@ void freeItem(struct qElement *element)
  *               item, a queue element
  *    Returns:   VOID
  *    Descrip:   adds a queue item, pointed to by item, to the queue pointed to by head */
-void addQueue(struct Queue *queue, struct qElement *item) {
+void addQueue(struct Queue *queue, struct TCB_t *item) {
 	// Case where queue is empty, queue->head is NULL
 	if (queue->head == NULL) {
 		// Insert item as first element
@@ -85,7 +95,7 @@ void addQueue(struct Queue *queue, struct qElement *item) {
 		queue->head->next = item;	// next points to itself 
 		queue->count++;				// increase count of elements for printing
 	} else {
-		struct qElement *tail = queue->head->prev; 		// tail element
+		struct TCB_t *tail = queue->head->prev; 		// tail element
 		item->next = queue->head;	// next points to head
 		item->prev = tail;			// link first element to last element
 		queue->head->prev = item; 	// set head tail to item
@@ -99,8 +109,8 @@ void addQueue(struct Queue *queue, struct qElement *item) {
  *		Inputs:		&head, address of head 
  *		Returns:	pointer to the deleted item
  *		Descrip:	deletes an item from head, assumes FIFO structure */
-struct qElement* delQueue(struct Queue *queue) {
-	struct qElement *temp;
+struct TCB_t* delQueue(struct Queue *queue) {
+	struct TCB_t *temp;
 	
 	// Check if queue is empty
 	if (queue->head != NULL) {
@@ -125,7 +135,7 @@ struct qElement* delQueue(struct Queue *queue) {
 		return NULL;
 	}
 
-	// Return the deleted item
+	// Return the deleted itema
 	return temp;
 }
 
