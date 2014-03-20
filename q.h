@@ -99,7 +99,7 @@ void addQueue(struct Queue *queue, struct qElement *item) {
  *		Inputs:		&head, address of head 
  *		Returns:	pointer to the deleted item
  *		Descrip:	deletes an item from head, assumes FIFO structure */
-struct qElement* DelQueue(struct Queue *queue) {
+struct qElement* delQueue(struct Queue *queue) {
 	struct qElement *temp;
 	
 	// Check if queue is empty
@@ -130,13 +130,12 @@ struct qElement* DelQueue(struct Queue *queue) {
 }
 
 
-/* RotateQ
+/* RotateQueue
 		Inputs:		&head, address of head 
 		Returns:	VOID
 		Descrip:	moves the header pointer to the next element in the queue */
-/*
-void RotateQ(&head) {
-
+void rotateQueue(struct Queue *queue) {
+	addQueue(queue, delQueue(queue));
 }
-*/
+
 

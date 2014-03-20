@@ -103,33 +103,38 @@ int main() {
 	addQueue(&queue, element4);
 	printQueue(&queue);
 
+/*
 	printf("\n>>  XX  <<\n    DELETING ELEMENT :\n>>  XX  <<\n");
 	printElement(element1);
-	item = DelQueue(&queue);
+	item = delQueue(&queue);
 	printQueue(&queue);
 	printf("\n>>  -x-  <<\n    DELETED :\n>>  -x-  <<\n");
 	printElement(item);
 
 	printf("\n>>  XX  <<\n    DELETING ELEMENT :\n>>  XX  <<\n");
 	printElement(element2);
-	item = DelQueue(&queue);
+	item = delQueue(&queue);
 	printQueue(&queue);
 	printf("\n>>  -x-  <<\n    DELETED :\n>>  -x-  <<\n");
 	printElement(item);
 
 	printf("\n>>  XX  <<\n    DELETING ELEMENT :\n>>  XX  <<\n");
 	printElement(element3);
-	item = DelQueue(&queue);
+	item = delQueue(&queue);
 	printQueue(&queue);
 	printf("\n>>  -x-  <<\n    DELETED :\n>>  -x-  <<\n");
 	printElement(item);
 
 	printf("\n>>  XX  <<\n    DELETING ELEMENT :\n>>  XX  <<\n");
 	printElement(element4);
-	item = DelQueue(&queue);
+	item = delQueue(&queue);
 	printQueue(&queue);
 	printf("\n>>  -x-  <<\n    DELETED :\n>>  -x-  <<\n");
 	printElement(item);
+*/
+	printf("\n>>  !  <<\n    ROTATING QUEUE :\n>>  !  <<\n");
+	rotateQueue(&queue);
+	printQueue(&queue);
 
 	freeItem(element1);
 	freeItem(element2);
