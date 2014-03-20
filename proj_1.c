@@ -2,7 +2,7 @@
  +--------------------------------------------------+
  | Filename: proj_1.c                               |
  +--------------------------------------------------+
- |           CSE 430, Programming Project 2         |
+ |           CSE 430, Programming Project 1         |
  |               Dasgupta T, Th 4:30 pm             |
  |                   March 27, 2014                 |
  |                                                  |
@@ -15,7 +15,7 @@
  |    all requirements on q.hpp are met.            |
  +--------------------------------------------------+
  */
-#include "q.h"
+//#include "q.h" // already included in proj-2.c
 
 /**		This program should be compiled using "gcc proj_1.c"		**/
 
@@ -32,6 +32,7 @@ void printElement(struct TCB_t *element) {
 		printf("+-----------+-------------+\n");
 		printf("|     adr:  | %p\n", element);
 		printf("+-------------------------+\n");
+		printf("| context:  | %p\n", &element->context);
 		printf("|    prev:  | %p\n", element->prev);
 		printf("|    next:  | %p\n", element->next);
 		printf("+-----------+-------------+\n");
@@ -77,6 +78,7 @@ void printQueue(struct Queue *queue) {
 /*
 						MAIN
 */
+/*
 int main() {
 	struct Queue queue;	// allocate memory for queue
 	initQueue(&queue); 	//create an empty queue
@@ -125,7 +127,6 @@ int main() {
 	printf("\n>>  -x-  <<\n    DELETED :\n>>  -x-  <<\n");
 	printElement(item);
 
-/*
 	printf("\n>>  XX  <<\n    DELETING ELEMENT :\n>>  XX  <<\n");
 	printElement(element3);
 	item = delQueue(&queue);
@@ -139,7 +140,7 @@ int main() {
 	printQueue(&queue);
 	printf("\n>>  -x-  <<\n    DELETED :\n>>  -x-  <<\n");
 	printElement(item);
-*/
+
 	printf("\n>>  !  <<\n    ROTATING QUEUE :\n>>  !  <<\n");
 	rotateQueue(&queue);
 	printQueue(&queue);
@@ -150,4 +151,5 @@ int main() {
 	freeItem(element4);
 	return 0;
 }
+*/
 

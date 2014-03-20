@@ -2,7 +2,7 @@
  +--------------------------------------------------+
  | Filename: q.h                                    |
  +--------------------------------------------------+
- |           CSE 430, Programming Project 2         |
+ |           CSE 430, Programming Project 1         |
  |               Dasgupta T, Th 4:30 pm             |
  |                   March 27, 2014                 |
  |                                                  |
