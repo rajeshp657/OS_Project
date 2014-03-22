@@ -27,7 +27,7 @@ void start_thread(void (*function)(void)) {
 	void* stack = malloc(8192);
 	
 	// 2
-	struct TCB_t* tcb = malloc(8192);
+	struct TCB_t* tcb = (struct TCB_t*)malloc(sizeof(struct TCB_t));
 
 	// 3
 	init_TCB(tcb, function, stack, 8192);
@@ -46,7 +46,7 @@ void run() {
 
 
 void yield() { // similar to run 
-	/*  rotate the run Q; 
+	/*  rotate the ready Q; 
 		swap the context, from previous thread to the thread pointed to by readyQ */
 	ucontext_t parent; 		// get a place to store the main context, for faking
 	getcontext(&parent);
