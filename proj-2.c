@@ -14,10 +14,6 @@
  */
 #include "threads.h"
 
-/* Declare a global ReadyQ */
-struct Queue ReadyQ;
-
-int x;		// x represents the number of loops performed
 
 /* Write a few functions with infinite loops (put a yield in each loop). 
    ! Note: try to write thread functions that aremeaningful, 
