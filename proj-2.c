@@ -14,6 +14,7 @@
  */
 #include "threads.h"
 
+int x;
 
 /* Write a few functions with infinite loops (put a yield in each loop). 
    ! Note: try to write thread functions that aremeaningful, 
