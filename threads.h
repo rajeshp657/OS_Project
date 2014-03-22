@@ -1,6 +1,6 @@
 /*
  +--------------------------------------------------+
- | Filename: threads.h                                    |
+ | Filename: threads.h                              |
  +--------------------------------------------------+
  |           CSE 430, Programming Project 2         |
  |               Dasgupta T, Th 4:30 pm             |

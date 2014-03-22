@@ -24,12 +24,12 @@ int x;		// x represents the number of loops performed
      use global and local variables ! */
 
 void func_1() {
-	int a, loop;			// a will represent all positive multiples of 2
+	int a, loop;			// a will represent 2^n
 	if(!a){a=1;}
 	while(1) {
 		printf("\n==================== LOOP %d ====================\n", x);
 		printf("\n    Thread[%d]", x%3);		// if unwanted context switching occurs, thread index will be off
-		printf("\nMultiples of two :%d", a);
+		printf("\n            2^%d :%d", loop, a);
 		printf("\n   Internal loop #%d\n", loop);
 		a = a*2;
 		loop++;
