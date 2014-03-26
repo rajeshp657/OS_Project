@@ -25,7 +25,7 @@ int x;		// x represents the number of loops performed
 
 void func_1() {
 	int a, loop;			// a will represent 2^n
-	if(!a){a=1;}
+	a=1;
 	while(1) {
 		printf("\n==================== LOOP %d ====================\n", x);
 		printf("\n    Thread[%d]", x%3);		// if unwanted context switching occurs, thread index will be off
@@ -34,14 +34,14 @@ void func_1() {
 		a = a*2;
 		loop++;
 		x++;
-		sleep(2);
+		sleep(1);
 		yield();
 	}
 }
 
 void func_2() {
 	int b, loop;			// b will represent all positive even numbers
-	if(!b){b=0;}
+	b=0;
 	while(1) {
 		printf("\n==================== LOOP %d ====================\n", x);
 		printf("\n\t\t    Thread[%d]", x%3);		// if unwanted context switching occurs, thread index will be off
@@ -50,14 +50,14 @@ void func_2() {
 		b = b+2;
 		loop++;
 		x++;
-		sleep(2);
+		sleep(1);
 		yield();
 	}
 }
 
 void func_3() {
 	int c, loop;			// c will represent all positive odd numbers
-	if(!c){c=1;}
+	c=1;
 	while(1) {
 		printf("\n==================== LOOP %d ====================\n", x);
 		printf("\n\t\t\t\t    Thread[%d]", x%3);		// if unwanted context switching occurs, thread index will be off
@@ -66,7 +66,7 @@ void func_3() {
 		c = c+2;
 		loop++;
 		x++;
-		sleep(2);
+		sleep(1);
 		yield();
 	}
 }

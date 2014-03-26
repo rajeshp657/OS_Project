@@ -16,6 +16,7 @@
 
 extern struct Queue ReadyQ;
 
+
 void start_thread(void (*function)(void)) { 
 	/* begin pseudo code 
 			1. allocate a stack (via malloc) of a certain size (choose 8192) 
@@ -39,7 +40,7 @@ void start_thread(void (*function)(void)) {
 
 void run() { 
 	// real code
-	ucontext_t parent; 		// get a place to store the main context, for faking
+	ucontext_t parent;		// get a place to store the main context, for faking
 	getcontext(&parent); 	// magic sauce
 	swapcontext(&parent, &(ReadyQ.head->context)); // start the first thread 
 }
@@ -48,8 +49,9 @@ void run() {
 void yield() { // similar to run 
 	/*  rotate the ready Q; 
 		swap the context, from previous thread to the thread pointed to by readyQ */
-	ucontext_t parent; 		// get a place to store the main context, for faking
+	ucontext_t parent, from; 		// get a place to store the main context, for faking
 	getcontext(&parent);
+	ReadyQ.head->context = parent;
 	rotateQueue(&ReadyQ);
 	swapcontext(&parent, &(ReadyQ.head->context)); // start the next thread
 }
