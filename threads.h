@@ -14,15 +14,15 @@
  */
 #include "q.h"
 
+struct Queue ReadyQ;
 
 void start_thread(void (*function)(void)) { 
-	/* begin pseudo code 
-			1. allocate a stack (via malloc) of a certain size (choose 8192) 
-			2. allocate a TCB (via malloc) 
-			3. call init_TCB with appropriate arguments
-			4. call addQ to add this TCB into the “ReadyQ” which is a global head pointer 
-	   end pseudo code */
-
+	int stackSize = 8192;
+	void *stackP = malloc(stackSize); //allocate stack
+	struct TCB_t *tcb =(struct TCB_t*) malloc(sizeof(struct TCB_t)); //allocate a TCB
+	init_TCB(tcb, function, stackP, stackSize); //initialize TCB
+	addQueue(&ReadyQ, tcb); //add this TCB into ReadyQ which is a global head pointer
+	 
 }
 
 
@@ -34,8 +34,10 @@ void run() {
 }
 
 
-void yield() { // similar to run 
-	/*  rotate the ready Q; 
-		swap the context, from previous thread to the thread pointed to by readyQ */
-
+void yield() {
+	ucontext_t previous; //place to store main context
+	getcontext(&previous); 
+	ReadyQ.head->context = previous;
+	rotateQueue(&ReadyQ); //rotate queue
+	swapcontext(&previous, &(ReadyQ.head->context)); //swap context from previous thread to current thread
 }
