@@ -40,18 +40,12 @@ void block(){
 // in the queue associated with the semaphore.
 void P(struct sem* S) {
 	S->value--;
-printf("P: %d",S->value);
 	while(S->value < 0){
+	ucontext_t *previous=&(ReadyQ.head->context); //get current context
 
-printf("went in");
-	ucontext_t previous; //place to store main context
-	getcontext(&previous);
-	ReadyQ.head->context = previous;
-
-		// add this process to S->queue;
-		addQueue(&(S->queue), delQueue(&ReadyQ));
-		rotateQueue(&(S->queue));
-	swapcontext(&previous, &(ReadyQ.head->context));
+	//add a process to S->queue
+	addQueue(&(S->queue), delQueue(&ReadyQ));
+	swapcontext(previous, &(ReadyQ.head->context));
 	}
 }
 
@@ -63,7 +57,6 @@ printf("went in");
 // this is important.
 void V(struct sem* S) {
 	S->value++;
-printf("V: %d",S->value);
 	if(S->value <= 0){
 		// remove a process from S->queue;
 		addQueue(&ReadyQ, delQueue(&(S->queue)));

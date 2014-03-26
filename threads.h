@@ -35,9 +35,14 @@ void run() {
 
 
 void yield() {
-	ucontext_t previous; //place to store main context
-	getcontext(&previous); 
-	ReadyQ.head->context = previous;
+//	ucontext_t previous; //place to store main context
+//	getcontext(&previous); 
+	ucontext_t *previous = &(ReadyQ.head->context);
 	rotateQueue(&ReadyQ); //rotate queue
-	swapcontext(&previous, &(ReadyQ.head->context)); //swap context from previous thread to current thread
+
+	if(swapcontext(previous, &(ReadyQ.head->context))<0) //swap context from previous thread to current thread
+	{
+		printf("error in swapcontext");
+		fflush(stdout);
+	}
 }

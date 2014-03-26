@@ -30,11 +30,10 @@ struct sem S;
 // exists the CS. Then it prints a message and sleeps and then repeats.
 
 void idle(){
-printf("in idle");
 while(1)
 {
-	yield();
-}
+
+	yield();}
 }
 void m1_f1(){
 	int y=0;
@@ -54,7 +53,9 @@ fflush(stdout);
 
 		// print values of global and local variables
 		printf("\n\t\tx: %d", x);	
+fflush(stdout);
 		printf("\n\t\ty: %d", y);
+fflush(stdout);
 
 		// sleep
 		V(&S);
@@ -62,6 +63,7 @@ fflush(stdout);
 
 		// print a message
 		printf("\n\t\tf1 woke up!");
+fflush(stdout);
 
 	}
 }
@@ -84,7 +86,9 @@ fflush(stdout);
 
 		// print values of global and local variables
 		printf("\n\t\t\t\tx: %d", x);	
+fflush(stdout);
 		printf("\n\t\t\t\ty: %d", y);
+fflush(stdout);
 
 		// sleep
 		V(&S);
@@ -92,6 +96,7 @@ fflush(stdout);
 
 		// print a message
 		printf("\n\t\t\t\tf2 woke up!");
+fflush(stdout);
 
 	}
 }
