@@ -29,11 +29,21 @@ struct sem S;
 // values of global and local variables (like proj1), sleeps and
 // exists the CS. Then it prints a message and sleeps and then repeats.
 
+void idle(){
+printf("in idle");
+while(1)
+{
+	yield();
+}
+}
 void m1_f1(){
 	int y=0;
 	printf("\n\t\tFUNC 1 START...");
+fflush(stdout);
+P(&S);
 	while(1){
 		printf("\n\t\tFUNC 1");
+fflush(stdout);
 
 		// wait for semaphore
 		P(&S);
@@ -53,17 +63,17 @@ void m1_f1(){
 		// print a message
 		printf("\n\t\tf1 woke up!");
 
-		// sleep
-		V(&S);
 	}
 }
 
 void m1_f2(){
 	int y=0;
 	printf("\n\t\t\t\tFUNC 2 START...");
-
+fflush(stdout);
+V(&S);
 	while(1){
 		printf("\n\t\t\t\tFUNC 2");
+fflush(stdout);
 
 		// wait for semaphore
 		P(&S);
@@ -83,18 +93,18 @@ void m1_f2(){
 		// print a message
 		printf("\n\t\t\t\tf2 woke up!");
 
-		// sleep
-		V(&S);
 	}
 }
 
 
 void m1_f3(){
+V(&S);
 	int y=0;
 	printf("\n\t\t\t\t\t\tFUNC 3 START...");
-
+fflush(stdout);
 	while(1){
 		printf("\n\t\t\t\t\t\tFUNC 3");
+fflush(stdout);
 
 		// wait for semaphore
 		P(&S);
@@ -114,8 +124,6 @@ void m1_f3(){
 		// print a message
 		printf("\n\t\t\t\t\t\tf3 woke up!");
 
-		// sleep
-		V(&S);
 	}
 }
 
@@ -144,6 +152,10 @@ int main(){
 		// initialize ReadyQ
 		printf("\n>>  I  <<\n    INITIALIZING READY QUEUE :\n>>  I  <<\n");
 		initQueue(&ReadyQ);
+		// start threads using the functions you defined using start_thread()
+		printf("\n>>  IDLE  <<\n    STARTING FUNC 1. ...\n>>  F1  <<\n");
+		start_thread(idle);
+
 
 		// start threads using the functions you defined using start_thread()
 		printf("\n>>  F1  <<\n    STARTING FUNC 1. ...\n>>  F1  <<\n");
