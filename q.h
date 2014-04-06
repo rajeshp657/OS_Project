@@ -82,7 +82,7 @@ void freeItem(struct TCB_t *element)
 
 
 /* addQueue
- *    Inputs:    &head, address of head to be added to 
+ *    Inputs:    &queue, address of head to be added to 
  *               item, a queue element
  *    Returns:   VOID
  *    Descrip:   adds a queue item, pointed to by item, to the queue pointed to by head */
