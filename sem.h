@@ -41,11 +41,11 @@ void block(){
 void P(struct sem* S) {
 	S->value--;
 	while(S->value < 0){
-	ucontext_t *previous=&(ReadyQ.head->context); //get current context
+		ucontext_t *previous=&(ReadyQ.head->context); //get current context
 
-	//add a process to S->queue
-	addQueue(&(S->queue), delQueue(&ReadyQ));
-	swapcontext(previous, &(ReadyQ.head->context));
+		//add a process to S->queue
+		addQueue(&(S->queue), delQueue(&ReadyQ));
+		swapcontext(previous, &(ReadyQ.head->context));
 	}
 }
 
