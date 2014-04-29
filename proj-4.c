@@ -162,8 +162,6 @@ void publish(){
 		init_item(next_published);
 		ic++; // increment item count
 		mark_subs(next_published);
-		// print_item(&next_published);
-
 		while(counter == BUFFER_SIZE){
 			P(&p);
 		}
@@ -177,10 +175,6 @@ void publish(){
 
 		V(&s);
 
-		// After 3 items have been published, start another subscriber
-		// if (loopCount == 2) {
-		// 	start_thread(subscribe);
-		// }
 	}
 }
 
@@ -193,7 +187,7 @@ void delete_item(item *i){
 	An item may only be removed once there exists no active
 	subscribers that has yet to read the item.
 */
-void remove_item(item *i){
+int remove_item(item *i){
 	// If the number of 2's in the subs[] array is equal to the number
 	// of subscribers, we can remove the item from the buffer
 	int twoCount = 0;
@@ -209,13 +203,10 @@ void remove_item(item *i){
 	
 	if(twoCount == sc){
 		printf("\n\t\t\tITEM REMOVED");
-		// i->value=0;
-		// for(x=0; x<5; x++){
-		// 	i->subs[x] = 0;
-		// }
 		delete_item(i);
 		counter--;
 		ic--; // decrement item count
+		return 1;
 	}
 }
 
@@ -229,25 +220,29 @@ void read_item(int subId, int out){
 	printf("\n\t\t\tREADING ITEM[ %d ]", out);
 	item *next_consumed;
 	int next = (out-1)%5;
-
+	int index;
 	// Remove itself from the list of subscribers that have yet to read the item
 	// by flipping its index value from 1 to 2
-	if(buffer[out]->value == 0){
+	if(buffer[out] == NULL){
 		// We just tried to read an empty buffer slot,
-		// so, try reading the previous item
-		// while(buffer[next].subs[subId] == 2){
-		// 	next--;
-		// }
-		next_consumed = buffer[next];
+		// so, try reading the next item
+		index = next;  
+		if(buffer[index] == NULL)
+		{
+			return;
+		}	
 	} else {
-		next_consumed = buffer[out];
+		index = out; 
 	}
-
-	if(next_consumed->value == 1){
-		next_consumed->subs[subId] = 2; // value of 2 means that the subscriber with its index equal to subId has now read the item
+	if(buffer[index]->value == 1)
+	{
+		buffer[index]->subs[subId] = 2;
 	}
-
-	remove_item(next_consumed);
+	int removed = remove_item(buffer[index]);
+	if(removed == 1)
+	{
+		buffer[index] = NULL;
+	}
 }
 
 /*
