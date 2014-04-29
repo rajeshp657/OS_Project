@@ -64,7 +64,7 @@ void publish(){
 		
 		print_buffer();
 
-		V(&c);
+		V(&s);
 	}
 }
 
@@ -80,7 +80,7 @@ void subscribe(){
 		item next_consumed;
 
 		while(counter == 0) {
-			P(&c);
+			P(&s);
 		}
 
 		counter--;
@@ -149,7 +149,7 @@ int main() {
 
 	// Initialize the semaphores
 	InitSem(&p, 1);
-	InitSem(&c, 1);
+	InitSem(&s, 1);
 
 	// initialize ReadyQ
 	printf("\n>>  I  <<\n    INITIALIZING READY QUEUE :\n>>  I  <<\n");
@@ -165,7 +165,9 @@ int main() {
 
 	// start the subscriber
 	printf("\n>>  S  <<\n    STARTING SUBSCRIBER. ...\n>>  S  <<\n");
-	start_thread(publish);
+	start_thread(subscribe);
+
+	run();
 	
 return 0;
 }
