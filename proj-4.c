@@ -46,14 +46,12 @@ struct sem s;	// subscribe semaphore
 typedef struct {
 	int value;
 	int subs[5]; // binary array to keep track of which subscribers have or haven't consumed this item yet
-	struct Queue queue;	// a queue to hold the list of subscribers trying to read
 }item;
 
-int sc; // subscriber count, should never be greater than 5
-int swc; // subscriber waiting count, number of subscribers waiting to read an item
-int ic; // item count
+int sc = 0; // subscriber count, should never be greater than 5
+int ic = 0; // item count
 
-item buffer[BUFFER_SIZE];
+item* buffer[BUFFER_SIZE];
 int in = 0;		// next index to be created
 int out = 0;	// next index to be consumed
 int counter = 0;	// number of items currently in the buffer
@@ -61,9 +59,13 @@ int loopCount = 0; // keep track of how many total items have been published
 // int subsArray[5];	// a binary to keep track of which subs are active
 
 void init_item(item* i) {
+	int x;
 	i->value = 1;
+	for(x=0; x<5; x++){
+		i->subs[x] = 0;
+	}
 	// i->subs[inValue] = 1;
-	initQueue(&i->queue);
+	// initQueue(&i->queue);
 }
 
 void print_item(item* i) {
@@ -82,20 +84,26 @@ void print_item(item* i) {
 void print_buffer(){
 	int i;
 	printf("\n\n#######################");
-	printf("\n# BUFFER [ ");
+	printf("\n# BUFFER [");
 	fflush(stdout);
 
 	for(i=0; i<BUFFER_SIZE; i++){
-		printf("%d ", buffer[i].value);
-		fflush(stdout);
+		if(buffer[i] != NULL){
+			printf(" %d ", buffer[i]->value);
+			fflush(stdout);
+		} else {
+			printf(" 0 ");
+		}
 	}
 
 	printf("]");
 	printf("\n# counter = %d", counter);
 
 	for(i=0; i<BUFFER_SIZE; i++){
-		if(buffer[i].value != 0){
-			print_item(&buffer[i]);
+		if(buffer[i] != NULL){
+			if(buffer[i]->value != 0){
+				print_item(buffer[i]);
+			}
 		}
 	}
 
@@ -127,9 +135,11 @@ void mark_subs(item *i){
 void update_items(int subId){
 	int x;
 	for(x=0; x<BUFFER_SIZE; x++){
-		if(buffer[x].value == 1){
-			if (buffer[x].subs[subId] == 0){
-				buffer[x].subs[subId] = 1;	// value of 1 means the subscriber with this subId has not read me yet
+		if (buffer[x] != NULL) {
+			if(buffer[x]->value == 1){
+				if (buffer[x]->subs[subId] == 0){
+					buffer[x]->subs[subId] = 1;	// value of 1 means the subscriber with this subId has not read me yet
+				}
 			}
 		}
 	}
@@ -148,9 +158,10 @@ void publish(){
 		sleep(1);
 
 		// produce an item in next_produced
-		item next_published;
-		init_item(&next_published);
-		mark_subs(&next_published);
+		item *next_published = (item*) malloc(sizeof(item));
+		init_item(next_published);
+		ic++; // increment item count
+		mark_subs(next_published);
 		// print_item(&next_published);
 
 		while(counter == BUFFER_SIZE){
@@ -171,6 +182,10 @@ void publish(){
 		// 	start_thread(subscribe);
 		// }
 	}
+}
+
+void delete_item(item *i){
+	free(i);
 }
 
 /* 
@@ -194,12 +209,14 @@ void remove_item(item *i){
 	
 	if(twoCount == sc){
 		printf("\n\t\t\tITEM REMOVED");
-		i->value=0;
-		for(x=0; x<5; x++){
-			i->subs[x] = 0;
-		}
+		// i->value=0;
+		// for(x=0; x<5; x++){
+		// 	i->subs[x] = 0;
+		// }
+		delete_item(i);
 		counter--;
-	}	
+		ic--; // decrement item count
+	}
 }
 
 /*
@@ -215,15 +232,15 @@ void read_item(int subId, int out){
 
 	// Remove itself from the list of subscribers that have yet to read the item
 	// by flipping its index value from 1 to 2
-	if(buffer[out].value == 0){
+	if(buffer[out]->value == 0){
 		// We just tried to read an empty buffer slot,
 		// so, try reading the previous item
 		// while(buffer[next].subs[subId] == 2){
 		// 	next--;
 		// }
-		next_consumed = &buffer[next];
+		next_consumed = buffer[next];
 	} else {
-		next_consumed = &buffer[out];
+		next_consumed = buffer[out];
 	}
 
 	if(next_consumed->value == 1){
@@ -267,12 +284,12 @@ void subscribe(){
 		// next_consumed = buffer[out];
 		// buffer[out] = temp;
 		out = (out + 1) % BUFFER_SIZE;
-		
+	
 		print_buffer();
-		loopCount++;
 		
 		V(&p);
 
+		loopCount++;
 		// After a few items (2) the subscriber starts another subscriber
 		if (loopCount == 2 || loopCount == 3 || loopCount == 4 || loopCount == 5) {
 			start_thread(subscribe);
