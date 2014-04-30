@@ -16,28 +16,6 @@
 
 #define BUFFER_SIZE 5
 
-/* Restrictions:
-	
-	1. Only 1 publisher
-	2. # of subscribers is NOT known in advance, new subscribers may get created while the
-			program is running. The number of subscribers is hence, dynamic.
-	3. The total number of subscribers will not exceed 5. This keeps the code simple and arrays
-			can be used to track the subscribers
-	4. If a new subscriber joins, the first item it reads is any one of the items in the queue
-			of unread items (recent past), or even the first item published in the future 
-			(your choice).
-	5. Subscribers do not terminate.
-
-*/
-/* Queue Restrictions:
-
-	1. Do not use 5 queues or multiple queues
-	2. There should only be 1 queue implemented using a circular array
-	3. Items can be integers.
-	4. All items published are to be read by all the subscribers
-	5. Items sit in the slot in the buffer until all subscribers have read it
-
-*/
 void subscribe();
 
 struct sem p;	// publish semaphore
@@ -52,11 +30,10 @@ int sc = 0; // subscriber count, should never be greater than 5
 int ic = 0; // item count
 
 item* buffer[BUFFER_SIZE];
-int in = 0;		// next index to be created
-int out = 0;	// next index to be consumed
-int counter = 0;	// number of items currently in the buffer
-int loopCount = 0; // keep track of how many total items have been published
-// int subsArray[5];	// a binary to keep track of which subs are active
+int in = 0;				// next index to be created
+int out = 0;			// next index to be consumed
+int counter = 0;		// number of items currently in the buffer
+int loopCount = 0; 		// keep track of how many total items have been published
 
 void init_item(item* i) {
 	int x;
@@ -64,27 +41,27 @@ void init_item(item* i) {
 	for(x=0; x<5; x++){
 		i->subs[x] = 0;
 	}
-	// i->subs[inValue] = 1;
-	// initQueue(&i->queue);
 }
 
 void print_item(item* i) {
-	printf("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	// printf("\n~ ITEM");
-	printf("\n~ value = %d", i->value);
-	printf("\n~ subs  = [");
+	printf("\n#+++++++++++++++++++++#");
+	// printf("\n~ value = %d", i->value);
+	// printf("\n# subs  = ");
+	printf("\n#  [");
 	int x;
 	for(x=0; x<5; x++){
 		printf(" %d ", i->subs[x]);
 	}
-	printf("]");
-	printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	printf("]  #");
+	printf("\n#+++++++++++++++++++++#");
 }
 
 void print_buffer(){
 	int i;
 	printf("\n\n#######################");
-	printf("\n# BUFFER [");
+	printf("\n#       BUFFER        #");
+	printf("\n#---------------------#");
+	printf("\n#  [");
 	fflush(stdout);
 
 	for(i=0; i<BUFFER_SIZE; i++){
@@ -95,13 +72,16 @@ void print_buffer(){
 			printf(" 0 ");
 		}
 	}
-
-	printf("]");
-	printf("\n# counter = %d", counter);
+	
+	printf("]  #");
+	printf("\n#     counter = %d     #", counter);
+	printf("\n#---------------------#");
 
 	for(i=0; i<BUFFER_SIZE; i++){
 		if(buffer[i] != NULL){
 			if(buffer[i]->value != 0){
+				printf("\n#                     #");
+				printf("\n# ITEM[ %d ]:          #", i);
 				print_item(buffer[i]);
 			}
 		}
@@ -110,8 +90,6 @@ void print_buffer(){
 	printf("\n#######################");
 	fflush(stdout);
 }
-
-
 
 /*
 	Loop through the item's subs[] array and mark all active subscribers
@@ -145,15 +123,14 @@ void update_items(int subId){
 	}
 }
 
-
-
 /*
 	publish:
 */
 void publish(){
 	while(1){
+		printf("\n___________________________________________");
 		printf("\n\n\t\tPUBLISH");
-		// printf("\n\t\tloopCount = %d", loopCount);
+		printf("\n___________________________________________");
 		fflush(stdout);
 		sleep(1);
 
@@ -171,7 +148,6 @@ void publish(){
 		in = (in + 1) % BUFFER_SIZE;
 		
 		print_buffer();
-		// loopCount++;
 
 		V(&s);
 
@@ -198,11 +174,9 @@ int remove_item(item *i){
 			twoCount++;
 		}
 	}
-
-	printf("\n\t\t\ttwoCount = %d", twoCount);
 	
 	if(twoCount == sc){
-		printf("\n\t\t\tITEM REMOVED");
+		printf("\n\t\tITEM REMOVED");
 		delete_item(i);
 		counter--;
 		ic--; // decrement item count
@@ -217,10 +191,13 @@ int remove_item(item *i){
 */
 void read_item(int subId, int out){
 	// Try to read the next item in the buffer
-	printf("\n\t\t\tREADING ITEM[ %d ]", out);
+	printf("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	printf("\n\t\tREADING ITEM");
+
 	item *next_consumed;
 	int next = (out-1)%5;
 	int index;
+
 	// Remove itself from the list of subscribers that have yet to read the item
 	// by flipping its index value from 1 to 2
 	if(buffer[out] == NULL){
@@ -229,20 +206,26 @@ void read_item(int subId, int out){
 		index = next;  
 		if(buffer[index] == NULL)
 		{
+			printf("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			return;
 		}	
 	} else {
 		index = out; 
 	}
-	if(buffer[index]->value == 1)
-	{
+
+	// if there is an item here,
+	// mark it with a 2, 
+	// which means 'we have read the item!'
+	if(buffer[index]->value == 1) {
 		buffer[index]->subs[subId] = 2;
 	}
+
+	// call remove_item to check if we are allowed to delete the item from the buffer
 	int removed = remove_item(buffer[index]);
-	if(removed == 1)
-	{
+	if(removed == 1) {
 		buffer[index] = NULL;
 	}
+	printf("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 }
 
 /*
@@ -250,22 +233,21 @@ void read_item(int subId, int out){
 */
 void subscribe(){
 	int subscriberID = sc;	// give each subscriber an ID
-	sc++;
-	int nextRead = out; // integer that keeps track of which item index was just read
+	sc++;					// incremement subscriber count
+	int nextRead = out; 	// integer that keeps track of which item index was just read
 
 	while(1) {
+		printf("\n___________________________________________");
 		printf("\n\n\t\tSUBSCRIBER[ %d ]", subscriberID);
 		printf("\n\t\tloopCount = %d", loopCount);
 		printf("\n\t\tsc = %d", sc);
+		printf("\n___________________________________________");
 		fflush(stdout);
 		sleep(1);
 
 		// Update all items in buffer,
 		// let them know that this thread hasn't read them yet
 		update_items(subscriberID);
-
-		// item next_consumed;
-		// item temp;
 
 		while(counter == 0) {
 			P(&s);
@@ -274,16 +256,12 @@ void subscribe(){
 		// Consume an item, "read the item"
 		read_item(subscriberID, nextRead);
 		nextRead = (nextRead+1)%5;
-
-		// counter--;
-		// next_consumed = buffer[out];
-		// buffer[out] = temp;
 		out = (out + 1) % BUFFER_SIZE;
 	
 		print_buffer();
 		
 		V(&p);
-
+		
 		loopCount++;
 		// After a few items (2) the subscriber starts another subscriber
 		if (loopCount == 2 || loopCount == 3 || loopCount == 4 || loopCount == 5) {
