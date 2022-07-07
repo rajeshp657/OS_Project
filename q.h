@@ -2,20 +2,6 @@
  +--------------------------------------------------+
  | Filename: q.h                                    |
  +--------------------------------------------------+
- |           CSE 430, Programming Project 1         |
- |               Dasgupta T, Th 4:30 pm             |
- |                   March 27, 2014                 |
- |                                                  |
- |          Group: Doug Sheridan, 1202789648        |
- |                 Amy Mazzola,                     |
- +--------------------------------------------------+
- | Description:                                     |
- |    This program contains routines necessary      |
- |    to perform standard queuing functions.        |
- |    The functions work on multiple queues,        |
- |    and structure each queue as a doubly          |
- |    linked, circular list.                        |
- +--------------------------------------------------+
  */
 #include <stdio.h>
 #include <stdlib.h>
